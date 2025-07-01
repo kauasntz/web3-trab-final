@@ -2,7 +2,6 @@
 Trabalho da disciplina Sistemas Web 3. Este projeto implementa um sistema completo de venda e entrega de tomates, composto por três microserviços independentes que se integram através de um mashup.
 
 Sistema de Venda e Entrega de Tomates
-Este projeto implementa um sistema completo de venda e entrega de tomates, composto por três microserviços independentes que se integram através de um mashup.
 
 Arquitetura do Sistema
 Serviços Implementados:
