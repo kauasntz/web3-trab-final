@@ -1,0 +1,22 @@
+{
+  "name": "mashup-service",
+  "version": "1.0.0",
+  "description": "Serviço mashup integrando tomate e frete",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "axios": "^1.10.0",
+    "express": "^4.21.2",
+    "graphql": "^16.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
