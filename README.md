@@ -2,14 +2,115 @@
 Trabalho da disciplina Sistemas Web 3, desenvolvido por Kauã Santos Lima.
 Este projeto implementa um sistema completo de venda e entrega de tomates, composto por dois microserviços independentes que se integram através de um outro serviço, denominado "mashup".
 
+# Sistema de Cotação Integrada - Tomate + Frete
 
-Serviços Implementados:
+Sistema distribuído com 3 serviços integrados: cálculo de preço de tomate, cálculo de frete e serviço mashup para cotação completa.
 
-Serviço de Preço do Tomate (REST - Porta 8081)
-Serviço de Cálculo de Frete (GraphQL e Node.js - Porta 8082)
-Mashup de Venda e Entrega (GraphQL e Node.js - Porta 8080)
------------------------------------------------------------------
-Regras de Negócio:
+## Arquitetura
+
+- **Serviço Tomate**: Java Spring Boot + REST API (porta 8081)
+- **Serviço Frete**: Node.js + GraphQL (porta 8082)  
+- **Serviço Mashup**: Node.js + GraphQL (porta 8080) - Integra os outros dois
+
+## Como Executar
+
+### 1. Serviço de Tomate (Java)
+```bash
+cd preco-tomate-service
+mvn spring-boot:run
+```
+- **Endpoint**: `http://localhost:8081/api/tomate/preco`
+
+### 2. Serviço de Frete (Node.js)
+```bash
+cd frete-service
+npm install
+npm run dev
+```
+- **GraphQL**: `http://localhost:8082/graphql`
+
+### 3. Serviço Mashup (Node.js)
+```bash
+cd mashup-service
+npm install
+npm run dev
+```
+- **GraphQL**: `http://localhost:8080/graphql`
+
+## Endpoints e Exemplos
+
+### Serviço Tomate (REST)
+```bash
+# GET - Calcular preço
+curl "http://localhost:8080/api/tomate/preco?quantidade=25"
+
+# Resposta
+{
+  "quantidade": 25,
+  "precoUnitario": 50.0,
+  "precoTotal": 1250.0,
+  "percentualDesconto": 11.0,
+  "precoFinal": 1112.5
+}
+```
+
+### Serviço Frete (GraphQL)
+```graphql
+# Query
+query {
+  calcularFrete(quilometragem: 150, tipoVeiculo: CAMINHAO) {
+    valorTotal
+    tipoVeiculo
+    capacidade
+  }
+}
+
+# Resposta
+{
+  "data": {
+    "calcularFrete": {
+      "valorTotal": 3200.0,
+      "tipoVeiculo": "CAMINHAO",
+      "capacidade": 250
+    }
+  }
+}
+```
+
+### Serviço Mashup (GraphQL)
+```graphql
+# Query - Cotação Completa
+query {
+  calcularCotacaoCompleta(
+    quantidade: 25, 
+    quilometragem: 150, 
+    tipoVeiculo: CAMINHAO
+  ) {
+    valorTotalGeral
+    resumo {
+      valorTomate
+      valorFrete
+      valorTotalGeral
+    }
+  }
+}
+
+# Resposta
+{
+  "data": {
+    "calcularCotacaoCompleta": {
+      "valorTotalGeral": 4312.5,
+      "resumo": {
+        "valorTomate": 1112.5,
+        "valorFrete": 3200.0,
+        "valorTotalGeral": 4312.5
+      }
+    }
+  }
+}
+```
+
+## Regras de Negócio:
 
 Serviço 1: Preço do Tomate
 Configuração Base
@@ -86,3 +187,15 @@ Integração
 - Consome os dois serviços anteriores
 - Aplica as regras comerciais específicas
 - Retorna o preço final para o cliente
+
+## Testes Rápidos
+
+### Verificar se todos os serviços estão online:
+```graphql
+query {
+  testarServicos {
+    tomate { status }
+    frete { status }
+  }
+}
+```
