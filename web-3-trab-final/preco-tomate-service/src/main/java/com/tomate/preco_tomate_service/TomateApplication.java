@@ -1,5 +1,4 @@
-// TomateController.java
-package com.tomate.controller;
+package com.tomate.preco_tomate_service;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.boot.SpringApplication;
@@ -10,13 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequestMapping("/api/tomate")
 public class TomateApplication {
 
-    private static final double PRECO_BASE = 50.0;
+	private static final double PRECO_BASE = 50.0;
 
-    public static void main(String[] args) {
-        SpringApplication.run(TomateApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(TomateApplication.class, args);
+	}
 
-    @GetMapping("/preco")
+	@GetMapping("/preco")
     public PrecoResponse calcularPreco(@RequestParam int quantidade) {
         double precoTotal = quantidade * PRECO_BASE;
         double desconto = calcularDesconto(quantidade);
@@ -80,52 +79,3 @@ public class TomateApplication {
         public double getPrecoFinal() { return precoFinal; }
     }
 }
-
-// application.properties
-server.port=8081
-spring.application.name=preco-tomate-service
-
-// pom.xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
-        <relativePath/>
-    </parent>
-    <groupId>com.tomate</groupId>
-    <artifactId>preco-tomate-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>preco-tomate-service</name>
-    <description>Serviço de cálculo de preço de tomates</description>
-
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-</project>
