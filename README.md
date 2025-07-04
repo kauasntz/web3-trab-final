@@ -1,6 +1,5 @@
 # web3-trab-final
 Trabalho da disciplina Sistemas Web 3, desenvolvido por Kauã Santos Lima.
-Este projeto implementa um sistema completo de venda e entrega de tomates, composto por dois microserviços independentes que se integram através de um outro serviço, denominado "mashup".
 
 # Sistema de Cotação Integrada - Tomate + Frete
 
